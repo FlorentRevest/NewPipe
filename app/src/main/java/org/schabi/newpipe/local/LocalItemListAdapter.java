@@ -328,9 +328,9 @@ public class LocalItemListAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
         switch (type) {
             case HEADER_TYPE:
-                return new HeaderFooterHolder(headerSupplier.get());
             case FOOTER_TYPE:
-                return new HeaderFooterHolder(footer);
+                // the actual header/footer view is attached to the holder in onBindViewHolder
+                return new HeaderFooterHolder(parent);
             case LOCAL_PLAYLIST_HOLDER_TYPE:
                 return new LocalPlaylistItemHolder(localItemBuilder, parent);
             case LOCAL_PLAYLIST_GRID_HOLDER_TYPE:
@@ -383,10 +383,10 @@ public class LocalItemListAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((LocalItemHolder) holder)
                     .updateFromItem(localItems.get(position), recordManager, dateTimeFormatter);
         } else if (holder instanceof HeaderFooterHolder && position == 0 && hasHeader()) {
-            ((HeaderFooterHolder) holder).view = headerSupplier.get();
+            ((HeaderFooterHolder) holder).setView(headerSupplier.get());
         } else if (holder instanceof HeaderFooterHolder && position == sizeConsideringHeader()
                 && footer != null && showFooter) {
-            ((HeaderFooterHolder) holder).view = footer;
+            ((HeaderFooterHolder) holder).setView(footer);
         }
     }
 
